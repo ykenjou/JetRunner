@@ -9,6 +9,7 @@ public class GroundColController : MonoBehaviour {
 	bool nextInit = false;
 	Vector3 cameraRight;
 	Vector3 cameraLeft;
+	Vector3 cameraInitPoint;
 	public GameObject groundPrefab;
 	float xRandam;
 	float yRandam;
@@ -19,7 +20,7 @@ public class GroundColController : MonoBehaviour {
 		playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		boxCollider = gameObject.GetComponent<BoxCollider2D>();
-		groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
+		//groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
 	}
 	
 	// Update is called once per frame
@@ -36,14 +37,15 @@ public class GroundColController : MonoBehaviour {
 		cameraLeft = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(-0.2f,1.0f,0.0f));
 		//Debug.Log(transform.position.x);
 		//Debug.Log(cameraRight.x);
+		//cameraInitPoint = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
 
 
-		if(transform.position.x + groundWidth < cameraRight.x){
+		if(transform.position.x < cameraRight.x){
 			if(!nextInit){
 				nextInit = true;
 				//Debug.Log("nextInit");
-				xRandam = Random.Range(4.0f,6.0f);
-				yRandam = Random.Range(8.0f,12.0f);
+				xRandam = Random.Range(6.0f, 10.0f);
+				yRandam = Random.Range(6.0f,12.0f);
 				cameraRight.x += xRandam;
 				cameraRight.y -= yRandam;
 				cameraRight.z = 1;
@@ -58,7 +60,4 @@ public class GroundColController : MonoBehaviour {
 
 	}
 
-	void FixedUpdate(){
-		
-	}
 }
