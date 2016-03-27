@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 		return GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController>();
 	}
 	
-	public Text fuelText;
+	//public Text fuelText;
 	string playerState;
 	Rigidbody2D playerBody2D;
 	float fuel = 100;
@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour {
 	float jumpedTime;
 	public string JumpBtnState;
 	bool jumpBegan;
+	public bool gameOver;
+
+	Slider fuelSlider;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 		jumpStartInterval = 0.2f;
 		jumpedTime = 0;
 		jumpBegan = false;
+		fuelSlider = GameObject.FindGameObjectWithTag("FuelSlider").GetComponent<Slider>();
 	}
 	
 	// Update is called once per frame
@@ -35,16 +39,29 @@ public class PlayerController : MonoBehaviour {
 		if(playerState == "jet"){
 			if(fuel >= 0){
 				fuel -= 80 * Time.deltaTime;
+				if(fuel < 0){
+					fuel = 0;
+				}
 			}
 		}
 
 		if(playerState == "ground"){
 			if(fuel <= 100){
 				fuel += 30 * Time.deltaTime;
+
+				if(fuel > 100){
+					fuel = 100;
+				}
+
+				if(fuel < 0){
+					fuel = 0;
+				}
 			}
 		}
 
-		fuelText.text = fuel.ToString("f1");
+		fuelSlider.value = fuel / 100;
+
+		//fuelText.text = fuel.ToString("f1");
 
 		if ( Input.GetKey(KeyCode.RightArrow) ){
 			addSpeed = 3.0f;
@@ -115,10 +132,17 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionStay2D(Collision2D col){
-		if(col.gameObject.tag == "Ground"){
+		if(col.gameObject.tag == "Ground" || col.gameObject.tag == "Missile"){
 			playerState = "ground";
 		}
 			
+	}
+
+	void OnTriggerStay2D(Collider2D col){
+		if(col.gameObject.tag == "Missile"){
+			//Debug.Log("damage!");
+			PlayerDameged();
+		}
 	}
 
 	public void JumpBegan(){
@@ -147,6 +171,18 @@ public class PlayerController : MonoBehaviour {
 		playerBody2D.gravityScale = gravityScale;
 		playerState = "normal";
 		jumpedTime = 0;
+	}
+
+	void PlayerDameged(){
+		StartCoroutine("PlayerDamegedStream");
+	}
+
+	IEnumerator PlayerDamegedStream(){
+		playerBody2D.AddForce(new Vector2(-3000,200));
+		fuel -= 30;
+		playerState = "dameged";
+		yield return new WaitForSeconds(0.3f);
+		playerState = "noraml";
 	}
 
 

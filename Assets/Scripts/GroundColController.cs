@@ -20,7 +20,7 @@ public class GroundColController : MonoBehaviour {
 		playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		boxCollider = gameObject.GetComponent<BoxCollider2D>();
-		//groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
+		groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
 	}
 	
 	// Update is called once per frame
@@ -44,7 +44,7 @@ public class GroundColController : MonoBehaviour {
 			if(!nextInit){
 				nextInit = true;
 				//Debug.Log("nextInit");
-				xRandam = Random.Range(6.0f, 10.0f);
+				xRandam = Random.Range(groundWidth + 2.0f, groundWidth + 5.0f);
 				yRandam = Random.Range(6.0f,12.0f);
 				cameraRight.x += xRandam;
 				cameraRight.y -= yRandam;

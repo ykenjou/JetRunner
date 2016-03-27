@@ -52,6 +52,8 @@
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GroundColController.cs" />
      <Compile Include="Assets\Scripts\GroundController.cs" />
+     <Compile Include="Assets\Scripts\MissileController.cs" />
+     <Compile Include="Assets\Scripts\MissleCreateController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ScrollObject.cs" />
      <Compile Include="Assets\Scripts\SkyController.cs" />
