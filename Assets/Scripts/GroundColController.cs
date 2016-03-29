@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class GroundColController : MonoBehaviour {
-	Transform playerTrans;
+	//Transform playerTrans;
 	BoxCollider2D boxCollider;
 	BoxCollider2D[] boxColliders;
 	GameObject mainCamera;
 	bool nextInit = false;
+	bool setOff;
 	Vector3 cameraRight;
 	Vector3 cameraLeft;
 	Vector3 cameraInitPoint;
@@ -17,7 +18,7 @@ public class GroundColController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+		//playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		boxCollider = gameObject.GetComponent<BoxCollider2D>();
 		groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -25,6 +26,7 @@ public class GroundColController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
 		float f = playerTrans.position.y - boxCollider.bounds.max.y;
 
 		if(f <= 0){
@@ -32,6 +34,16 @@ public class GroundColController : MonoBehaviour {
 		} else {
 			boxCollider.enabled = true;
 		}
+		*/
+
+
+		if(setOff){
+			boxCollider.enabled = false;
+		}
+		if(!setOff){
+			boxCollider.enabled = true;
+		}
+
 
 		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
 		cameraLeft = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(-0.2f,1.0f,0.0f));
@@ -59,5 +71,20 @@ public class GroundColController : MonoBehaviour {
 		}
 
 	}
+
+
+	void OnTriggerStay2D (Collider2D col){
+		if (col.gameObject.tag == "Player") {
+			setOff = true;
+		}
+	}
+
+	void OnTriggerExit2D (Collider2D col)
+	{
+		if (col.gameObject.tag == "Player") {
+			setOff = false;
+		}
+	}
+
 
 }

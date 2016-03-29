@@ -26,6 +26,7 @@ public class MissleCreateController : MonoBehaviour {
 			cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.3f,1.0f,0.0f));
 			yRandam = Random.Range(6.0f,9.0f);
 			cameraRight.y -= yRandam;
+			cameraRight.z = 1;
 			Instantiate(missilePrefab,cameraRight,Quaternion.identity);
 		}
 

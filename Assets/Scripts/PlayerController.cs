@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	float jumpedTime;
 	public string JumpBtnState;
 	bool jumpBegan;
+	bool damageBool;
 	public bool gameOver;
 
 	Slider fuelSlider;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 		jumpedTime = 0;
 		jumpBegan = false;
 		fuelSlider = GameObject.FindGameObjectWithTag("FuelSlider").GetComponent<Slider>();
+		damageBool = true;
 	}
 	
 	// Update is called once per frame
@@ -131,19 +133,7 @@ public class PlayerController : MonoBehaviour {
 		playerBody2D.velocity = new Vector2(8.0f+addSpeed ,playerBody2D.velocity.y);
 	}
 
-	void OnCollisionStay2D(Collision2D col){
-		if(col.gameObject.tag == "Ground" || col.gameObject.tag == "Missile"){
-			playerState = "ground";
-		}
-			
-	}
 
-	void OnTriggerStay2D(Collider2D col){
-		if(col.gameObject.tag == "Missile"){
-			//Debug.Log("damage!");
-			PlayerDameged();
-		}
-	}
 
 	public void JumpBegan(){
 		// タッチ開始
@@ -173,16 +163,35 @@ public class PlayerController : MonoBehaviour {
 		jumpedTime = 0;
 	}
 
-	void PlayerDameged(){
-		StartCoroutine("PlayerDamegedStream");
+	void PlayerDamaged(){
+		StartCoroutine("PlayerDamagedStream");
 	}
 
-	IEnumerator PlayerDamegedStream(){
+	IEnumerator PlayerDamagedStream(){
+		damageBool = false;
+		//Debug.Log("damage!");
 		playerBody2D.AddForce(new Vector2(-3000,200));
 		fuel -= 30;
 		playerState = "dameged";
 		yield return new WaitForSeconds(0.3f);
 		playerState = "noraml";
+		damageBool = true;
+	}
+
+	void OnCollisionStay2D(Collision2D col){
+		if(col.gameObject.tag == "Ground" || col.gameObject.tag == "Missile"){
+			playerState = "ground";
+		}
+
+	}
+
+	void OnTriggerStay2D(Collider2D col){
+		if(col.gameObject.tag == "MissileHead"){
+			if(damageBool){
+				PlayerDamaged();
+			}
+
+		}
 	}
 
 
