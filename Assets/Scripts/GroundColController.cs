@@ -46,7 +46,7 @@ public class GroundColController : MonoBehaviour {
 
 
 		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
-		cameraLeft = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(-0.2f,1.0f,0.0f));
+		cameraLeft = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(-1.0f,1.0f,0.0f));
 		//Debug.Log(transform.position.x);
 		//Debug.Log(cameraRight.x);
 		//cameraInitPoint = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));

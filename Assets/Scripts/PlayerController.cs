@@ -7,25 +7,36 @@ public class PlayerController : MonoBehaviour {
 	public static PlayerController GetController() {
 		return GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController>();
 	}
-	
-	//public Text fuelText;
+
+	GameController gameController;
+
 	string playerState;
 	Rigidbody2D playerBody2D;
-	float fuel = 100;
+
+	[System.NonSerialized]
+	public float fuel;
+	Slider fuelSlider;
+
 	[System.NonSerialized]
 	public float addSpeed;
-	float gravityScale;
-	float jumpStartInterval;
-	float jumpedTime;
-	public string JumpBtnState;
-	bool jumpBegan;
-	bool damageBool;
-	public bool gameOver;
 
-	Slider fuelSlider;
+	public float gravityScale;
+	float jumpStartInterval;
+	public float jumpedTime;
+	public string JumpBtnState;
+	public bool jumpBegan;
+	bool damageBool;
+
+
+	public float score;
+	public float oldScore;
+
+	public Transform startPoint;
+	public Text scoreText;
 
 	// Use this for initialization
 	void Start () {
+		gameController = GameController.GetController();
 		playerBody2D = GetComponent<Rigidbody2D>();
 		gravityScale = 4.0f;
 		jumpStartInterval = 0.2f;
@@ -37,103 +48,117 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(!gameController.gameOverBool && gameController.gameStartBool){
+			score =  transform.position.x - startPoint.position.x;
 
-		if(playerState == "jet"){
-			if(fuel >= 0){
-				fuel -= 80 * Time.deltaTime;
-				if(fuel < 0){
-					fuel = 0;
+			if(score != oldScore){
+				oldScore = score;
+				//scoreText.text = score.ToString("f1");
+			}
+
+			if(playerState == "jet"){
+				if(fuel >= 0){
+					fuel -= 80 * Time.deltaTime;
+					if(fuel < 0){
+						fuel = 0;
+					}
 				}
 			}
-		}
 
-		if(playerState == "ground"){
-			if(fuel <= 100){
-				fuel += 30 * Time.deltaTime;
+			if(playerState == "ground"){
+				if(fuel <= 100){
+					fuel += 30 * Time.deltaTime;
 
-				if(fuel > 100){
-					fuel = 100;
-				}
+					if(fuel > 100){
+						fuel = 100;
+					}
 
-				if(fuel < 0){
-					fuel = 0;
+					if(fuel < 0){
+						fuel = 0;
+					}
 				}
 			}
+
+			fuelSlider.value = fuel / 100;
+
+			//fuelText.text = fuel.ToString("f1");
+
+			if ( Input.GetKey(KeyCode.RightArrow) ){
+				addSpeed = 3.0f;
+			} 
+			if ( Input.GetKey(KeyCode.LeftArrow) ){
+				addSpeed = -3.0f;
+			}
+
+			if ( Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow) ){
+				addSpeed = 0.0f;
+			}
+
+			if (Input.GetKeyDown(KeyCode.Space)){
+				JumpBegan();
+			}
+
+			if (Input.GetKey(KeyCode.Space)){
+				JumpStationary();
+			}
+
+			if (Input.GetKeyUp(KeyCode.Space)){
+				JumpEnded();
+			}
+			/*
+			TouchInfo info = AppUtil.GetTouch();
+			if (info == TouchInfo.Began)
+			{
+				// タッチ開始
+				JumpBegan();
+			}
+
+			if (info == TouchInfo.Stationary)
+			{
+				JumpStationary();
+			}
+
+			if (info == TouchInfo.Ended)
+			{
+				JumpEnded();
+			}
+			*/
+
+			if(JumpBtnState == "downJumpBtn" && jumpBegan == false){
+				jumpBegan = true;
+				JumpBegan();
+			}
+
+			if(JumpBtnState == "downJumpBtn" && jumpBegan == true){
+				JumpStationary();
+			}
+
+			if(JumpBtnState == "upJumpBtn"){
+				jumpBegan = false;
+				JumpEnded();
+			}
+
+			if(playerState == "normal"){
+				jumpBegan = false;
+			}
+
 		}
-
-		fuelSlider.value = fuel / 100;
-
-		//fuelText.text = fuel.ToString("f1");
-
-		if ( Input.GetKey(KeyCode.RightArrow) ){
-			addSpeed = 3.0f;
-		} 
-		if ( Input.GetKey(KeyCode.LeftArrow) ){
-			addSpeed = -3.0f;
-		}
-
-		if ( Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow) ){
-			addSpeed = 0.0f;
-		}
-
-		if (Input.GetKeyDown(KeyCode.Space)){
-			JumpBegan();
-		}
-
-		if (Input.GetKey(KeyCode.Space)){
-			JumpStationary();
-		}
-
-		if (Input.GetKeyUp(KeyCode.Space)){
-			JumpEnded();
-		}
-		/*
-		TouchInfo info = AppUtil.GetTouch();
-		if (info == TouchInfo.Began)
-		{
-			// タッチ開始
-			JumpBegan();
-		}
-
-		if (info == TouchInfo.Stationary)
-		{
-			JumpStationary();
-		}
-
-		if (info == TouchInfo.Ended)
-		{
-			JumpEnded();
-		}
-		*/
-
-		if(JumpBtnState == "downJumpBtn" && jumpBegan == false){
-			jumpBegan = true;
-			JumpBegan();
-		}
-
-		if(JumpBtnState == "downJumpBtn" && jumpBegan == true){
-			JumpStationary();
-		}
-
-		if(JumpBtnState == "upJumpBtn"){
-			jumpBegan = false;
-			JumpEnded();
-		}
-
-		if(playerState == "normal"){
-			jumpBegan = false;
-		}
-
 
 
 		//Debug.Log(playerState);
 	}
 
 	void FixedUpdate(){
-		playerBody2D.velocity = new Vector2(8.0f+addSpeed ,playerBody2D.velocity.y);
+		if(!gameController.gameOverBool && gameController.gameStartBool){
+			playerBody2D.velocity = new Vector2(8.0f+addSpeed ,playerBody2D.velocity.y);
+		} else {
+			playerBody2D.velocity = new Vector2(0,0);
+		}
 	}
 
-
+	public void PlayerReset(){
+		transform.position = startPoint.position;
+	}
 
 	public void JumpBegan(){
 		// タッチ開始
@@ -182,6 +207,16 @@ public class PlayerController : MonoBehaviour {
 		if(col.gameObject.tag == "Ground" || col.gameObject.tag == "Missile"){
 			playerState = "ground";
 		}
+		if(col.gameObject.tag == "GameOver"){
+			if(!gameController.gameOverBool){
+				gameController.GameOver();
+			}
+		}
+
+	}
+
+	void OnCollisionEnter2D(Collision2D col){
+
 
 	}
 

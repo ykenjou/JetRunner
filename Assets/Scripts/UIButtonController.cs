@@ -4,9 +4,11 @@ using System.Collections;
 public class UIButtonController : MonoBehaviour {
 
 	PlayerController playerController;
+	GameController gameController;
 
 	void Awake(){
 		playerController = PlayerController.GetController();
+		gameController = GameController.GetController();
 	}
 
 	// Use this for initialization
@@ -17,6 +19,15 @@ public class UIButtonController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void GameStartBtn(){
+		gameController.GameStart();
+	}
+
+
+	public void GameRestartBtn(){
+		gameController.GameReset();
 	}
 
 	public void DownRightBtn(){
