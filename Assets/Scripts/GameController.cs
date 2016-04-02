@@ -49,6 +49,7 @@ public class GameController : MonoBehaviour {
 		playerController.oldScore = 0;
 		playerController.score = 0;
 		playerController.PlayerReset();
+		playerController.life = 3;
 		cameraController.ResetCameraPosition();
 		stageController.DeleteAllGround();
 		stageController.SetFirstGround();

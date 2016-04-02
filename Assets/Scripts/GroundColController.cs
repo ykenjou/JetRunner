@@ -56,7 +56,7 @@ public class GroundColController : MonoBehaviour {
 			if(!nextInit){
 				nextInit = true;
 				//Debug.Log("nextInit");
-				xRandam = Random.Range(groundWidth + 2.0f, groundWidth + 5.0f);
+				xRandam = Random.Range(groundWidth + 5.0f, groundWidth + 7.0f);
 				yRandam = Random.Range(6.0f,12.0f);
 				cameraRight.x += xRandam;
 				cameraRight.y -= yRandam;

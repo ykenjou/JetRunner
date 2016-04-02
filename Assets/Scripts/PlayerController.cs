@@ -27,12 +27,15 @@ public class PlayerController : MonoBehaviour {
 	public bool jumpBegan;
 	bool damageBool;
 
+	public int life;
 
 	public float score;
 	public float oldScore;
 
 	public Transform startPoint;
 	public Text scoreText;
+
+	public LifePanelController lifePanelController;
 
 	// Use this for initialization
 	void Start () {
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour {
 		jumpStartInterval = 0.2f;
 		jumpedTime = 0;
 		jumpBegan = false;
+		life = 3;
 		fuelSlider = GameObject.FindGameObjectWithTag("FuelSlider").GetComponent<Slider>();
 		damageBool = true;
 	}
@@ -53,7 +57,13 @@ public class PlayerController : MonoBehaviour {
 
 			if(score != oldScore){
 				oldScore = score;
-				//scoreText.text = score.ToString("f1");
+				scoreText.text = score.ToString("f1");
+			}
+
+			lifePanelController.UpdateLife(life);
+
+			if(life <= 0){
+				gameController.GameOver();
 			}
 
 			if(playerState == "jet"){
@@ -150,7 +160,7 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate(){
 		if(!gameController.gameOverBool && gameController.gameStartBool){
-			playerBody2D.velocity = new Vector2(8.0f+addSpeed ,playerBody2D.velocity.y);
+			playerBody2D.velocity = new Vector2(12.0f+addSpeed ,playerBody2D.velocity.y);
 		} else {
 			playerBody2D.velocity = new Vector2(0,0);
 		}
@@ -194,7 +204,7 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator PlayerDamagedStream(){
 		damageBool = false;
-		//Debug.Log("damage!");
+		life--;
 		playerBody2D.AddForce(new Vector2(-3000,200));
 		fuel -= 30;
 		playerState = "dameged";

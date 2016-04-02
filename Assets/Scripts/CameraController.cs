@@ -26,16 +26,15 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
-
-	void FixedUpdate(){
 		if(!gameController.gameOverBool && gameController.gameStartBool){
 			transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
-			cameraBody2D.velocity = new Vector2(8.0f,cameraBody2D.velocity.y);
+			cameraBody2D.velocity = new Vector2(12.0f,cameraBody2D.velocity.y);
 		} else {
 			cameraBody2D.velocity = new Vector2(0,0);
 		}
+	}
+
+	void FixedUpdate(){
 
 		//Vector3 cameraFront = gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.02f,1.0f,0.0f));
 		//rightLine.transform.position = cameraFront;
