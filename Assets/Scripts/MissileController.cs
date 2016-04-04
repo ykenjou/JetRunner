@@ -30,7 +30,7 @@ public class MissileController : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D col){
-		if(col.gameObject.tag == "Player"){
+		if(col.gameObject.tag == "Player" || col.gameObject.tag == "PlayerAttack"){
 			Destroy(gameObject);
 		}
 	}

@@ -12,6 +12,7 @@ public class GroundColController : MonoBehaviour {
 	Vector3 cameraLeft;
 	Vector3 cameraInitPoint;
 	public GameObject groundPrefab;
+	public GameObject bombPrefab;
 	float xRandam;
 	float yRandam;
 	float groundWidth;
@@ -46,7 +47,7 @@ public class GroundColController : MonoBehaviour {
 
 
 		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
-		cameraLeft = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(-1.0f,1.0f,0.0f));
+		//cameraLeft = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(-1.0f,1.0f,0.0f));
 		//Debug.Log(transform.position.x);
 		//Debug.Log(cameraRight.x);
 		//cameraInitPoint = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
@@ -63,12 +64,16 @@ public class GroundColController : MonoBehaviour {
 				cameraRight.z = 1;
 				var groundObj = Instantiate(groundPrefab,cameraRight,Quaternion.identity);
 				groundObj.name = groundPrefab.name;
+				Vector3 bombPosition = new Vector3(cameraRight.x + groundWidth / 2,cameraRight.y + 1.05f, cameraRight.z);
+				Instantiate(bombPrefab,bombPosition,Quaternion.identity);
 			}
 		}
 
+		/*
 		if(transform.position.x < cameraLeft.x){
 			Destroy(gameObject);
 		}
+		*/
 
 	}
 
@@ -84,6 +89,10 @@ public class GroundColController : MonoBehaviour {
 		if (col.gameObject.tag == "Player") {
 			setOff = false;
 		}
+	}
+
+	void OnBecameInvisible(){
+		Destroy(gameObject);
 	}
 
 

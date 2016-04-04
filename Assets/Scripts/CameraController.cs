@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour {
 	void Update () {
 		if(!gameController.gameOverBool && gameController.gameStartBool){
 			transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
-			cameraBody2D.velocity = new Vector2(12.0f,cameraBody2D.velocity.y);
+			cameraBody2D.velocity = new Vector2(10.0f,cameraBody2D.velocity.y);
 		} else {
 			cameraBody2D.velocity = new Vector2(0,0);
 		}

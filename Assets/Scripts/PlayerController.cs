@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
 
 	[System.NonSerialized]
 	public float fuel;
+	float oldFuel;
 	Slider fuelSlider;
 
 	[System.NonSerialized]
@@ -37,8 +38,15 @@ public class PlayerController : MonoBehaviour {
 
 	public LifePanelController lifePanelController;
 
+	public GameObject beamObject;
+
+	Vector3 beamPosition;
+	bool shotBool;
+	public Button beamButton;
+
 	// Use this for initialization
 	void Start () {
+		shotBool = true;
 		gameController = GameController.GetController();
 		playerBody2D = GetComponent<Rigidbody2D>();
 		gravityScale = 4.0f;
@@ -56,8 +64,8 @@ public class PlayerController : MonoBehaviour {
 			score =  transform.position.x - startPoint.position.x;
 
 			if(score != oldScore){
-				oldScore = score;
 				scoreText.text = score.ToString("f1");
+				oldScore = score;
 			}
 
 			lifePanelController.UpdateLife(life);
@@ -90,6 +98,12 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			fuelSlider.value = fuel / 100;
+
+			if(fuel >= 30){
+				beamButton.interactable = true;
+			} else {
+				beamButton.interactable = false;
+			}
 
 			//fuelText.text = fuel.ToString("f1");
 
@@ -160,7 +174,7 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate(){
 		if(!gameController.gameOverBool && gameController.gameStartBool){
-			playerBody2D.velocity = new Vector2(12.0f+addSpeed ,playerBody2D.velocity.y);
+			playerBody2D.velocity = new Vector2(10.0f+addSpeed ,playerBody2D.velocity.y);
 		} else {
 			playerBody2D.velocity = new Vector2(0,0);
 		}
@@ -198,6 +212,20 @@ public class PlayerController : MonoBehaviour {
 		jumpedTime = 0;
 	}
 
+	public void BeamShot(){
+		if(shotBool && fuel >= 30){
+			beamPosition = new Vector3(transform.position.x + 7.8f,transform.position.y,transform.position.z);
+			Instantiate(beamObject,beamPosition,Quaternion.identity);
+			fuel -= 30;
+			shotBool = false;
+			Invoke("BeamCharge",1);
+		}
+	}
+
+	void BeamCharge(){
+		shotBool = true;
+	}
+
 	void PlayerDamaged(){
 		StartCoroutine("PlayerDamagedStream");
 	}
@@ -231,11 +259,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D col){
-		if(col.gameObject.tag == "MissileHead"){
+		if(col.gameObject.tag == "DamageObject"){
 			if(damageBool){
 				PlayerDamaged();
 			}
-
 		}
 	}
 

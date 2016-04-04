@@ -61,4 +61,8 @@ public class UIButtonController : MonoBehaviour {
 	public void ExitJumpBtn(){
 		playerController.JumpBtnState = "upJumpBtn";
 	}
+
+	public void DownShotBtn(){
+		playerController.BeamShot();
+	}
 }

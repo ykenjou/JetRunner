@@ -48,10 +48,12 @@
      <Compile Include="Assets\FlappyBaseAssets\CameraEffect\ClashCamera.cs" />
      <Compile Include="Assets\FlappyBaseAssets\CameraEffect\FlashEffect.cs" />
      <Compile Include="Assets\Scripts\AppUtil.cs" />
+     <Compile Include="Assets\Scripts\BeamController.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GroundColController.cs" />
      <Compile Include="Assets\Scripts\GroundController.cs" />
+     <Compile Include="Assets\Scripts\LRObjectController.cs" />
      <Compile Include="Assets\Scripts\LifePanelController.cs" />
      <Compile Include="Assets\Scripts\MissileController.cs" />
      <Compile Include="Assets\Scripts\MissleCreateController.cs" />
