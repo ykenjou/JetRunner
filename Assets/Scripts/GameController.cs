@@ -49,13 +49,16 @@ public class GameController : MonoBehaviour {
 		playerController.jumpedTime = 0;
 		playerController.jumpBegan = false;
 		playerController.gravityScale = 4.0f;
+		playerController.addSpeed = 0;
 		playerController.score = 0;
 		playerController.oldScore = 0;
 		playerController.score = 0;
+		playerController.addScore = 0;
 		playerController.PlayerReset();
 		playerController.life = 3;
 		cameraController.ResetCameraPosition();
 		stageController.DeleteAllGround();
+		stageController.DeleteAllObjects();
 		stageController.SetFirstGround();
 	}
 
@@ -79,6 +82,10 @@ public class GameController : MonoBehaviour {
 		gameOverBool = true;
 		yield return new WaitForSeconds(1);
 		gameOverPanel.SetActive(true);
+	}
+
+	void DestroyObjects(){
+		
 	}
 		
 }

@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float score;
 	public float oldScore;
+	public float addScore;
 
 	public Transform startPoint;
 	public Text scoreText;
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour {
 			score =  transform.position.x - startPoint.position.x;
 
 			if(score != oldScore){
-				scoreText.text = score.ToString("f1");
+				scoreText.text = (score + addScore).ToString("f1");
 				oldScore = score;
 			}
 
@@ -99,11 +100,15 @@ public class PlayerController : MonoBehaviour {
 
 			fuelSlider.value = fuel / 100;
 
+
+
+			/*
 			if(fuel >= 30){
 				beamButton.interactable = true;
 			} else {
 				beamButton.interactable = false;
 			}
+			*/
 
 			//fuelText.text = fuel.ToString("f1");
 
@@ -230,14 +235,22 @@ public class PlayerController : MonoBehaviour {
 		StartCoroutine("PlayerDamagedStream");
 	}
 
+	void TreadEnemy(){
+		fuel += 20;
+		if(fuel > 100){
+			fuel = 100;
+		}
+		addScore += 20;
+	}
+
 	IEnumerator PlayerDamagedStream(){
 		damageBool = false;
 		life--;
 		playerBody2D.AddForce(new Vector2(-3000,200));
 		fuel -= 30;
 		playerState = "dameged";
-		yield return new WaitForSeconds(0.3f);
-		playerState = "noraml";
+		yield return new WaitForSeconds(1f);
+		playerState = "normal";
 		damageBool = true;
 	}
 
@@ -250,11 +263,15 @@ public class PlayerController : MonoBehaviour {
 				gameController.GameOver();
 			}
 		}
-
 	}
+
 
 	void OnCollisionEnter2D(Collision2D col){
 
+		if(col.gameObject.tag == "DamageObject"){
+			TreadEnemy();
+			playerState = "ground";
+		}
 
 	}
 

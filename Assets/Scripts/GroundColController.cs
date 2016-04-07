@@ -13,9 +13,15 @@ public class GroundColController : MonoBehaviour {
 	Vector3 cameraInitPoint;
 	public GameObject groundPrefab;
 	public GameObject bombPrefab;
+	public GameObject gardRobotPrefab;
 	float xRandam;
 	float yRandam;
 	float groundWidth;
+	float bombWidth;
+	float bombHeight;
+	float gardRobotWidth;
+	float gardRobotHeight;
+	float enemyRandam;
 
 	// Use this for initialization
 	void Start () {
@@ -23,6 +29,10 @@ public class GroundColController : MonoBehaviour {
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		boxCollider = gameObject.GetComponent<BoxCollider2D>();
 		groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
+		bombWidth =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+		bombHeight =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+		gardRobotWidth =  gardRobotPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+		gardRobotHeight =  gardRobotPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
 	}
 	
 	// Update is called once per frame
@@ -64,8 +74,20 @@ public class GroundColController : MonoBehaviour {
 				cameraRight.z = 1;
 				var groundObj = Instantiate(groundPrefab,cameraRight,Quaternion.identity);
 				groundObj.name = groundPrefab.name;
-				Vector3 bombPosition = new Vector3(cameraRight.x + groundWidth / 2,cameraRight.y + 1.05f, cameraRight.z);
-				Instantiate(bombPrefab,bombPosition,Quaternion.identity);
+
+				enemyRandam = Random.Range(0,10.0f);
+				if(enemyRandam < 4){
+					//set bomb
+					float rPositionX = Random.Range(0,3);
+					Vector3 enemyPosition = new Vector3(cameraRight.x + groundWidth / 2 - bombWidth /2 + rPositionX,cameraRight.y + bombHeight, cameraRight.z);
+					Instantiate(bombPrefab,enemyPosition,Quaternion.identity);
+				} else if(enemyRandam < 8){
+					//set robot
+					float rPositionX = Random.Range(0,3);
+					Vector3 enemyPosition = new Vector3(cameraRight.x + groundWidth / 2 - gardRobotWidth /2 + rPositionX,cameraRight.y + gardRobotHeight, cameraRight.z);
+					Instantiate(gardRobotPrefab,enemyPosition,Quaternion.identity);
+
+				}
 			}
 		}
 
@@ -75,6 +97,10 @@ public class GroundColController : MonoBehaviour {
 		}
 		*/
 
+	}
+
+	void SetEnemy(){
+		
 	}
 
 

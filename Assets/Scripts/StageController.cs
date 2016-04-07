@@ -6,8 +6,11 @@ public class StageController : MonoBehaviour {
 	Vector3 cameraRight;
 	Vector3 playerPosition;
 	GameObject mainCamera;
-	GameObject[] grouds;
+	GameObject[] grounds;
+	GameObject[] damageObjects;
 	public GameObject groundPrefab;
+	public GameObject ground2Prefab;
+	public GameObject ground3Prefab;
 	public GameObject startGround;
 	public GameObject player;
 	float xRandam;
@@ -28,6 +31,10 @@ public class StageController : MonoBehaviour {
 	
 	}
 
+	public void SetGround(){
+		
+	}
+
 	public void SetFirstGround(){
 		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
 		xRandam = Random.Range(3.0f,5.0f);
@@ -43,9 +50,18 @@ public class StageController : MonoBehaviour {
 	}
 
 	public void DeleteAllGround(){
-		grouds = GameObject.FindGameObjectsWithTag("Ground");
-		foreach(GameObject obj in grouds){
+		grounds = GameObject.FindGameObjectsWithTag("Ground");
+		foreach(GameObject obj in grounds){
 			Destroy(obj);
+		}
+	}
+
+	public void DeleteAllObjects(){
+		damageObjects = GameObject.FindGameObjectsWithTag("DamageObject");
+		if(damageObjects.Length > 0){
+			foreach(GameObject obj in damageObjects){
+				Destroy(obj);
+			}
 		}
 	}
 }
