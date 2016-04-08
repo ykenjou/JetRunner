@@ -45,17 +45,7 @@ public class GameController : MonoBehaviour {
 		gameOverPanel.SetActive(false);
 		gameStartPanel.SetActive(true);
 		goText.SetActive(false);
-		playerController.fuel = 100;
-		playerController.jumpedTime = 0;
-		playerController.jumpBegan = false;
-		playerController.gravityScale = 4.0f;
-		playerController.addSpeed = 0;
-		playerController.score = 0;
-		playerController.oldScore = 0;
-		playerController.score = 0;
-		playerController.addScore = 0;
 		playerController.PlayerReset();
-		playerController.life = 3;
 		cameraController.ResetCameraPosition();
 		stageController.DeleteAllGround();
 		stageController.DeleteAllObjects();

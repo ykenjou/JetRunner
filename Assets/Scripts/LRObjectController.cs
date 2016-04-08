@@ -40,7 +40,7 @@ public class LRObjectController : MonoBehaviour {
 				rigidBody.velocity = rightMoveVector;
 			}
 		} else {
-			rigidBody.velocity = new Vector2(0,0);
+			//rigidBody.velocity = new Vector2(0,0);
 		}
 		
 	}
@@ -66,6 +66,7 @@ public class LRObjectController : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D col){
 		if(col.gameObject.tag == "Player"){
 			boxColliders[0].enabled = false;
+			boxColliders[1].enabled = false;
 			playerTread = true;
 		}
 

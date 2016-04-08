@@ -15,6 +15,19 @@ public class StageController : MonoBehaviour {
 	public GameObject player;
 	float xRandam;
 	float yRandam;
+	//bool nextInit = false;
+	public GameObject bombPrefab;
+	public GameObject gardRobotPrefab;
+	float newGroundWidth;
+	float bombWidth;
+	float bombHeight;
+	float gardRobotWidth;
+	float gardRobotHeight;
+	float groundRandom;
+	float enemyRandom;
+	GameObject groundObj;
+
+	PlayerController playerController;
 
 	public static StageController GetController() {
 		return GameObject.FindGameObjectWithTag ("StageController").GetComponent<StageController>();
@@ -22,17 +35,55 @@ public class StageController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		playerController = PlayerController.GetController();
+
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-		//cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
+		bombWidth =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+		bombHeight =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+		gardRobotWidth =  gardRobotPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+		gardRobotHeight =  gardRobotPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		//cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
 	}
 
-	public void SetGround(){
-		
+	public void SetNextGround(float oldGroundWidth){
+		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
+		xRandam = Random.Range(oldGroundWidth + 5.0f, oldGroundWidth + 7.0f);
+		yRandam = Random.Range(6.0f,12.0f);
+		cameraRight.x += xRandam;
+		cameraRight.y -= yRandam;
+		cameraRight.z = 1;
+
+		groundRandom = Random.Range(0,10.0f);
+		if(groundRandom < 3.3){
+			groundObj = Instantiate(groundPrefab,cameraRight,Quaternion.identity) as GameObject;
+		} else if(groundRandom < 6.6){
+			groundObj = Instantiate(ground2Prefab,cameraRight,Quaternion.identity) as GameObject;
+		} else {
+			groundObj = Instantiate(ground3Prefab,cameraRight,Quaternion.identity) as GameObject;
+		}
+		groundObj.name = groundPrefab.name;
+
+		newGroundWidth = groundObj.GetComponent<SpriteRenderer>().bounds.size.x;
+
+		enemyRandom = Random.Range(0,10.0f);
+		if(enemyRandom < 3){
+			//set bomb
+			float rPositionX = Random.Range(3,3);
+			Vector3 enemyPosition = new Vector3(cameraRight.x + newGroundWidth / 2 - bombWidth /2 + rPositionX,cameraRight.y + bombHeight, cameraRight.z);
+			Instantiate(bombPrefab,enemyPosition,Quaternion.identity);
+		} else if(enemyRandom < 6){
+			//set robot
+
+			float rPositionX = Random.Range(0,3);
+			Vector3 enemyPosition = new Vector3(cameraRight.x + newGroundWidth / 2 - gardRobotWidth /2 + rPositionX,cameraRight.y + gardRobotHeight, cameraRight.z);
+			Instantiate(gardRobotPrefab,enemyPosition,Quaternion.identity);
+
+
+		}
 	}
 
 	public void SetFirstGround(){

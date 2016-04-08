@@ -33,6 +33,13 @@ public class PlayerController : MonoBehaviour {
 	public float score;
 	public float oldScore;
 	public float addScore;
+	public int scoreInt;
+	public int oldScoreInt;
+
+	public int stageLevel;
+	public int oldStageLevel;
+	public bool stageLevelUpBool;
+	public Text levelText;
 
 	public Transform startPoint;
 	public Text scoreText;
@@ -63,11 +70,33 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if(!gameController.gameOverBool && gameController.gameStartBool){
 			score =  transform.position.x - startPoint.position.x;
+			scoreInt = (int)(score);
 
-			if(score != oldScore){
-				scoreText.text = (score + addScore).ToString("f1");
-				oldScore = score;
+			if(scoreInt != oldScoreInt){
+				//scoreText.text = (score + addScore).ToString("f1");
+				//scoreInt = (int)(score + addScore);
+				scoreText.text = scoreInt.ToString();
+				oldScoreInt = scoreInt;
 			}
+
+
+			if (scoreInt % 300 == 0 && scoreInt != 0)
+			{
+				if(stageLevelUpBool){
+					stageLevel++;
+					levelText.text = stageLevel.ToString();
+					stageLevelUpBool = false;
+				}
+			} else {
+				stageLevelUpBool = true;
+			}
+
+			/*
+			if (scoreInt % 300 == 1){
+				
+			}
+			*/
+
 
 			lifePanelController.UpdateLife(life);
 
@@ -187,6 +216,24 @@ public class PlayerController : MonoBehaviour {
 
 	public void PlayerReset(){
 		transform.position = startPoint.position;
+		fuel = 100;
+		fuelSlider.value = fuel / 100;
+		jumpedTime = 0;
+		jumpBegan = false;
+		gravityScale = 4.0f;
+		addSpeed = 0;
+		score = 0;
+		oldScore = 0;
+		score = 0;
+		addScore = 0;
+		scoreInt = 0;
+		oldScoreInt = 0;
+		scoreText.text = scoreInt.ToString();
+		life = 3;
+		lifePanelController.UpdateLife(life);
+		stageLevel = 1;
+		stageLevelUpBool = true;
+		levelText.text = stageLevel.ToString();
 	}
 
 	public void JumpBegan(){

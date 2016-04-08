@@ -27,7 +27,7 @@ public class PlayerTrackerController : MonoBehaviour {
 		if(!stopBool){
 			distance = player.transform.position.x - transform.position.x;
 			abDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
-			if(abDistance < 15){
+			if(abDistance < 7){
 				//プレイヤーが左 初期
 				if(distance < 0){
 					rigidBody.velocity = new Vector2(-speed,0);

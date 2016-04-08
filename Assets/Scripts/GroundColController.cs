@@ -10,18 +10,23 @@ public class GroundColController : MonoBehaviour {
 	bool setOff;
 	Vector3 cameraRight;
 	Vector3 cameraLeft;
-	Vector3 cameraInitPoint;
 	public GameObject groundPrefab;
+	public GameObject groundPrefab2;
+	public GameObject groundPrefab3;
 	public GameObject bombPrefab;
 	public GameObject gardRobotPrefab;
 	float xRandam;
 	float yRandam;
 	float groundWidth;
+	/*
 	float bombWidth;
 	float bombHeight;
 	float gardRobotWidth;
 	float gardRobotHeight;
-	float enemyRandam;
+	*/
+	float groundRandom;
+	float enemyRandom;
+	StageController stageController;
 
 	// Use this for initialization
 	void Start () {
@@ -29,10 +34,13 @@ public class GroundColController : MonoBehaviour {
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		boxCollider = gameObject.GetComponent<BoxCollider2D>();
 		groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
+		/*
 		bombWidth =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
 		bombHeight =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
 		gardRobotWidth =  gardRobotPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
 		gardRobotHeight =  gardRobotPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+		*/
+		stageController = StageController.GetController();
 	}
 	
 	// Update is called once per frame
@@ -72,22 +80,28 @@ public class GroundColController : MonoBehaviour {
 				cameraRight.x += xRandam;
 				cameraRight.y -= yRandam;
 				cameraRight.z = 1;
+				stageController.SetNextGround(groundWidth);
+
+
+				/*
 				var groundObj = Instantiate(groundPrefab,cameraRight,Quaternion.identity);
 				groundObj.name = groundPrefab.name;
 
-				enemyRandam = Random.Range(0,10.0f);
-				if(enemyRandam < 4){
+
+				enemyRandom = Random.Range(0,10.0f);
+				if(enemyRandom < 4){
 					//set bomb
 					float rPositionX = Random.Range(0,3);
 					Vector3 enemyPosition = new Vector3(cameraRight.x + groundWidth / 2 - bombWidth /2 + rPositionX,cameraRight.y + bombHeight, cameraRight.z);
 					Instantiate(bombPrefab,enemyPosition,Quaternion.identity);
-				} else if(enemyRandam < 8){
+				} else if(enemyRandom < 8){
 					//set robot
 					float rPositionX = Random.Range(0,3);
 					Vector3 enemyPosition = new Vector3(cameraRight.x + groundWidth / 2 - gardRobotWidth /2 + rPositionX,cameraRight.y + gardRobotHeight, cameraRight.z);
 					Instantiate(gardRobotPrefab,enemyPosition,Quaternion.identity);
 
 				}
+				*/
 			}
 		}
 
