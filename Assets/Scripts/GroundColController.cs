@@ -55,13 +55,14 @@ public class GroundColController : MonoBehaviour {
 		}
 		*/
 
-
+		/*
 		if(setOff){
 			boxCollider.enabled = false;
 		}
 		if(!setOff){
 			boxCollider.enabled = true;
 		}
+		*/
 
 
 		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
@@ -75,11 +76,13 @@ public class GroundColController : MonoBehaviour {
 			if(!nextInit){
 				nextInit = true;
 				//Debug.Log("nextInit");
+				/*
 				xRandam = Random.Range(groundWidth + 5.0f, groundWidth + 7.0f);
 				yRandam = Random.Range(6.0f,12.0f);
 				cameraRight.x += xRandam;
 				cameraRight.y -= yRandam;
 				cameraRight.z = 1;
+				*/
 				stageController.SetNextGround(groundWidth);
 
 

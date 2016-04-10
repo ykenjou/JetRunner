@@ -41,6 +41,10 @@ public class PlayerController : MonoBehaviour {
 	public bool stageLevelUpBool;
 	public Text levelText;
 
+	int coins;
+	int oldCoins;
+	public Text coinText;
+
 	public Transform startPoint;
 	public Text scoreText;
 
@@ -88,7 +92,14 @@ public class PlayerController : MonoBehaviour {
 					stageLevelUpBool = false;
 				}
 			} else {
-				stageLevelUpBool = true;
+				if(!stageLevelUpBool){
+					stageLevelUpBool = true;
+				}
+			}
+
+			if(coins != oldCoins){
+				coinText.text = coins.ToString();
+				oldCoins = coins;
 			}
 
 			/*
@@ -234,6 +245,9 @@ public class PlayerController : MonoBehaviour {
 		stageLevel = 1;
 		stageLevelUpBool = true;
 		levelText.text = stageLevel.ToString();
+		coins = 0;
+		oldCoins = 0;
+		coinText.text = "0";
 	}
 
 	public void JumpBegan(){
@@ -327,6 +341,12 @@ public class PlayerController : MonoBehaviour {
 			if(damageBool){
 				PlayerDamaged();
 			}
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D col){
+		if(col.gameObject.tag == "Coin"){
+			coins++;
 		}
 	}
 

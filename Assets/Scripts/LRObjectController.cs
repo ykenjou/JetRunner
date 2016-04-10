@@ -15,7 +15,7 @@ public class LRObjectController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		lrInt = Random.Range(0,11);
+		lrInt = Random.Range(1,11);
 		if(lrInt < 6){
 			leftMove = true;
 		} else {

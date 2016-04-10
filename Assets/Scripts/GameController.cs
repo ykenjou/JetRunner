@@ -49,6 +49,7 @@ public class GameController : MonoBehaviour {
 		cameraController.ResetCameraPosition();
 		stageController.DeleteAllGround();
 		stageController.DeleteAllObjects();
+		stageController.DeleteCoins();
 		stageController.SetFirstGround();
 	}
 
