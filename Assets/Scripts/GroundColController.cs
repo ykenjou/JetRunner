@@ -7,7 +7,7 @@ public class GroundColController : MonoBehaviour {
 	BoxCollider2D[] boxColliders;
 	GameObject mainCamera;
 	bool nextInit = false;
-	bool setOff;
+	//bool setOff;
 	Vector3 cameraRight;
 	Vector3 cameraLeft;
 	public GameObject groundPrefab;
@@ -32,7 +32,7 @@ public class GroundColController : MonoBehaviour {
 	void Start () {
 		//playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-		boxCollider = gameObject.GetComponent<BoxCollider2D>();
+		//boxCollider = gameObject.GetComponent<BoxCollider2D>();
 		groundWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
 		/*
 		bombWidth =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -123,14 +123,14 @@ public class GroundColController : MonoBehaviour {
 
 	void OnTriggerStay2D (Collider2D col){
 		if (col.gameObject.tag == "Player") {
-			setOff = true;
+			//setOff = true;
 		}
 	}
 
 	void OnTriggerExit2D (Collider2D col)
 	{
 		if (col.gameObject.tag == "Player") {
-			setOff = false;
+			//setOff = false;
 		}
 	}
 

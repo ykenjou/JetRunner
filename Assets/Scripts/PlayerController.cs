@@ -20,24 +20,33 @@ public class PlayerController : MonoBehaviour {
 
 	[System.NonSerialized]
 	public float addSpeed;
-
+	[System.NonSerialized]
 	public float gravityScale;
 	float jumpStartInterval;
+	[System.NonSerialized]
 	public float jumpedTime;
+	[System.NonSerialized]
 	public string JumpBtnState;
+	[System.NonSerialized]
 	public bool jumpBegan;
 	bool damageBool;
-
+	[System.NonSerialized]
 	public int life;
-
+	[System.NonSerialized]
 	public float score;
+	[System.NonSerialized]
 	public float oldScore;
+	[System.NonSerialized]
 	public float addScore;
+	[System.NonSerialized]
 	public int scoreInt;
+	[System.NonSerialized]
 	public int oldScoreInt;
-
+	[System.NonSerialized]
 	public int stageLevel;
+	[System.NonSerialized]
 	public int oldStageLevel;
+	[System.NonSerialized]
 	public bool stageLevelUpBool;
 	public Text levelText;
 
@@ -254,7 +263,7 @@ public class PlayerController : MonoBehaviour {
 		// タッチ開始
 		if(playerState == "ground"){
 			//playerBody2D.velocity = new Vector2(0.0f,30.0f);
-			playerBody2D.AddForce(new Vector2(0,900));
+			playerBody2D.AddForce(new Vector2(0,1600));
 			playerState = "jump";
 		}
 	}
@@ -263,7 +272,7 @@ public class PlayerController : MonoBehaviour {
 		jumpedTime += Time.deltaTime;
 		if(jumpStartInterval < jumpedTime){
 			if(fuel > 1){
-				playerBody2D.velocity = new Vector2(0.0f,5.0f);
+				playerBody2D.velocity = new Vector2(0.0f,6.0f);
 				playerBody2D.gravityScale = 0.0f;
 				playerState = "jet";
 			} else {
@@ -308,7 +317,7 @@ public class PlayerController : MonoBehaviour {
 		damageBool = false;
 		life--;
 		playerBody2D.AddForce(new Vector2(-3000,200));
-		fuel -= 30;
+		//fuel -= 30;
 		playerState = "dameged";
 		yield return new WaitForSeconds(1f);
 		playerState = "normal";

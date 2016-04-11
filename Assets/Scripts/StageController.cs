@@ -114,7 +114,7 @@ public class StageController : MonoBehaviour {
 
 		itemRandom = Random.Range(0,10.0f);
 		if(itemRandom < 3){
-			float rPositionX = Random.Range(-15,15);
+			float rPositionX = Random.Range(-12,12);
 			float rPositonY = Random.Range(3,5);
 			Vector3 itemPosition = new Vector3(cameraRight.x + newGroundWidth / 2 + rPositionX,cameraRight.y + rPositonY, cameraRight.z);
 			Instantiate(Coin,itemPosition,Quaternion.identity);
@@ -128,8 +128,8 @@ public class StageController : MonoBehaviour {
 		if(levelDivide > 2){
 			levelDivide = 2;
 		}
-		xRangeMin = 5 + levelDivide;
-		xRangeMax = 7 + levelDivide;
+		xRangeMin = 4 + levelDivide;
+		xRangeMax = 6 + levelDivide;
 		yRangeMin = 6 - levelDivide;
 		yRangeMax = 12 + levelDivide;
 	}
@@ -140,11 +140,11 @@ public class StageController : MonoBehaviour {
 			groundPrefabs[1] = ground2Prefab;
 			groundPrefabs[2] = ground3Prefab;
 		} else if(level <= 4){
-			groundPrefabs[0] = ground2Prefab;
+			groundPrefabs[0] = groundPrefab;
 			groundPrefabs[1] = ground3Prefab;
 			groundPrefabs[2] = ground4Prefab;
 		} else if(level <= 6){
-			groundPrefabs[0] = ground3Prefab;
+			groundPrefabs[0] = ground2Prefab;
 			groundPrefabs[1] = ground4Prefab;
 			groundPrefabs[2] = ground5Prefab;
 		} else if(level <= 8){
@@ -152,7 +152,7 @@ public class StageController : MonoBehaviour {
 			groundPrefabs[1] = ground4Prefab;
 			groundPrefabs[2] = ground5Prefab;
 		} else {
-			groundPrefabs[0] = ground4Prefab;
+			groundPrefabs[0] = ground3Prefab;
 			groundPrefabs[1] = ground5Prefab;
 			groundPrefabs[2] = ground6Prefab;
 		}
