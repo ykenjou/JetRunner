@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour {
 	bool shotBool;
 	public Button beamButton;
 
+	bool timeScaleSlowBool;
+
 	// Use this for initialization
 	void Start () {
 		shotBool = true;
@@ -81,6 +83,13 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if(timeScaleSlowBool){
+			Time.timeScale = 0.3f;
+		} else {
+			Time.timeScale = 1.0f;
+		}
+
 		if(!gameController.gameOverBool && gameController.gameStartBool){
 			score =  transform.position.x - startPoint.position.x;
 			scoreInt = (int)(score);
@@ -110,12 +119,6 @@ public class PlayerController : MonoBehaviour {
 				coinText.text = coins.ToString();
 				oldCoins = coins;
 			}
-
-			/*
-			if (scoreInt % 300 == 1){
-				
-			}
-			*/
 
 
 			lifePanelController.UpdateLife(life);
@@ -257,6 +260,7 @@ public class PlayerController : MonoBehaviour {
 		coins = 0;
 		oldCoins = 0;
 		coinText.text = "0";
+		timeScaleSlowBool = false;
 	}
 
 	public void JumpBegan(){
@@ -311,14 +315,18 @@ public class PlayerController : MonoBehaviour {
 			fuel = 100;
 		}
 		addScore += 20;
+		playerBody2D.AddForce(new Vector2(0,100));
 	}
 
 	IEnumerator PlayerDamagedStream(){
 		damageBool = false;
+		timeScaleSlowBool = true;
 		life--;
 		playerBody2D.AddForce(new Vector2(-3000,200));
 		//fuel -= 30;
 		playerState = "dameged";
+		yield return new WaitForSeconds(0.05f);
+		timeScaleSlowBool = false;
 		yield return new WaitForSeconds(1f);
 		playerState = "normal";
 		damageBool = true;

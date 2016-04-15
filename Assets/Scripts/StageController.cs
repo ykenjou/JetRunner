@@ -24,6 +24,10 @@ public class StageController : MonoBehaviour {
 	public GameObject bombPrefab;
 	public GameObject gardRobotPrefab;
 	public GameObject rollingObjPrefab;
+	public GameObject jumpEnemyPrefab;
+	public GameObject throwmanPrefab;
+	public GameObject fallingBallPrefab;
+	GameObject[] enemyPrefabs;
 	float newGroundWidth;
 	float bombWidth;
 	float bombHeight;
@@ -31,6 +35,8 @@ public class StageController : MonoBehaviour {
 	float gardRobotHeight;
 	float rollingObjWidth;
 	float rollingObjHeight;
+	float jumpEnemyWidth;
+	float jumpEnemyHeight;
 	float groundRandom;
 	float enemyRandom;
 	float itemRandom;
@@ -55,6 +61,7 @@ public class StageController : MonoBehaviour {
 		playerController = PlayerController.GetController();
 
 		groundPrefabs = new GameObject[10];
+		enemyPrefabs = new GameObject[10];
 
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		bombWidth =  bombPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -96,20 +103,20 @@ public class StageController : MonoBehaviour {
 
 
 		enemyRandom = Random.Range(0,10.0f);
-		if(enemyRandom < 2.5){
+		if(enemyRandom < 2.2){
 			//set bomb
 			float rPositionX = Random.Range(3,3);
 			Vector3 enemyPosition = new Vector3(cameraRight.x + newGroundWidth / 2 - bombWidth /2 + rPositionX,cameraRight.y + bombHeight, cameraRight.z);
 			Instantiate(bombPrefab,enemyPosition,Quaternion.identity);
-		} else if(enemyRandom < 5){
+		} else if(enemyRandom < 4.4){
 			//set robot
 			float rPositionX = Random.Range(0,3);
 			Vector3 enemyPosition = new Vector3(cameraRight.x + newGroundWidth / 2 - gardRobotWidth /2 + rPositionX,cameraRight.y + gardRobotHeight, cameraRight.z);
-			Instantiate(gardRobotPrefab,enemyPosition,Quaternion.identity);
-		} else if(enemyRandom < 7.5) {
+			Instantiate(jumpEnemyPrefab,enemyPosition,Quaternion.identity);
+		} else if(enemyRandom < 6.6) {
 			float rPositionX = Random.Range(3,5);
 			Vector3 enemyPosition = new Vector3(cameraRight.x + newGroundWidth / 2 - rollingObjWidth /2 + rPositionX,cameraRight.y + rollingObjHeight, cameraRight.z);
-			Instantiate(rollingObjPrefab,enemyPosition,Quaternion.identity);
+			Instantiate(throwmanPrefab,enemyPosition,Quaternion.identity);
 		}
 
 		itemRandom = Random.Range(0,10.0f);
@@ -159,6 +166,25 @@ public class StageController : MonoBehaviour {
 
 	}
 
+	void enemySettingWithLevel(int level){
+		if(level <= 1){
+			enemyPrefabs[0] = jumpEnemyPrefab;
+			enemyPrefabs[1] = jumpEnemyPrefab;
+		} else if(level <= 2){
+		} else if(level <= 3){
+		} else if(level <= 4){
+		} else if(level <= 5){
+		} else if(level <= 6){
+		} else if(level <= 7){
+		} else if(level <= 8){
+		} else if(level <= 9){
+		} else if(level <= 10){
+		} else if(level <= 11){
+		} else {
+			
+		}
+	}
+
 	public void SetFirstGround(){
 		cameraRight = mainCamera.gameObject.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1.0f,1.0f,0.0f));
 		xRandam = Random.Range(3.0f,5.0f);
@@ -169,7 +195,7 @@ public class StageController : MonoBehaviour {
 		var groundObj = Instantiate(groundPrefab,cameraRight,Quaternion.identity);
 		groundObj.name = groundPrefab.name;
 
-		playerPosition = new Vector3(player.transform.position.x-8,player.transform.position.y-0.7f,player.transform.position.z);
+		playerPosition = new Vector3(player.transform.position.x-10,player.transform.position.y-0.7f,player.transform.position.z);
 		Instantiate(startGround,playerPosition,Quaternion.identity);
 	}
 
